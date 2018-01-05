@@ -1,0 +1,11 @@
+get                 http://aplic.inmetrics.com.br/sig
+wait                5000
+findElementByXPath  .//*[@id='UserName']
+sendKeys            josemarsilva
+clear
+click
+submit
+exportTableAsCsv
+storeTextInto 
+restoreTextFrom 
+selectOptionBy

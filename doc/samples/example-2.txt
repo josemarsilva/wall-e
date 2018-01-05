@@ -1,0 +1,17 @@
+get                 "http://aplic.inmetrics.com.br/redmine"
+wait                5000
+findElementByxpath  ".//*[@id='username']"
+sendKeys            josemarsilva
+findElementByxpath  ".//*[@id='password']"
+sendKeys            
+findElementByxpath  ".//*[@id='login-form']/form/table/tbody/tr[4]/td[2]/input"
+click               
+wait                5000
+findElementByxpath  ".//*[@id='project_quick_jump_box']"
+click               
+sendKeys            Demo
+get                 "http://aplic.inmetrics.com.br/redmine/projects/cantina/issues"
+wait                5000
+get                 ".//*[@id='operators_status_id']"
+click               
+sendKeys            is
