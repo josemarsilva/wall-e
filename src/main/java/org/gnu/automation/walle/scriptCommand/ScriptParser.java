@@ -1,4 +1,4 @@
-package org.gnu.walle.script;
+package org.gnu.automation.walle.scriptCommand;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.gnu.walle.pageObjects.WebPage;
-import org.gnu.walle.util.RecordOf;
-import org.gnu.walle.util.TableOf;
+import org.gnu.automation.walle.pageObjects.WebPage;
+import org.gnu.automation.walle.util.RecordOf;
+import org.gnu.automation.walle.util.TableOf;
 
 
 public class ScriptParser {
@@ -16,6 +16,9 @@ public class ScriptParser {
 	// private constants ...	
 	private final String MSG_TXT_WARN_UNRECOGNIZED_COMMAND = new String("Warning: Unrecognized command '%s' was ignored!");
 	private final String MSG_TXT_WARN_MISSING_PARAMETERS = new String("Warning: Command '%s' require these parameters: '%s'");
+	private final String MSG_TXT_WARN_UNRECOGNIZED_PARAMETERS = new String("Warning: Command '%s' unrecognize parameter value: '%s' - command was ignored!");
+	private final String MSG_TXT_WARN_EMPTY_COMMAND_LINE_SKIPPED = new String("Warning: Empty command line was skipped!");
+	private final String MSG_TXT_ERROR_WEBPAGE_ISNULL = new String("Error: WebPage was not instanced!");
 	
 	// private properties ...
 	private TableOf tableOfCommands = new TableOf();
@@ -63,7 +66,6 @@ public class ScriptParser {
 		RecordOf recordOfCommandTokens = new RecordOf(); 
 		int tokenNumber = 0;
 		int tokenBeginIndex = 0;
-		int tokenEndIndex = 0;
 		boolean isSpaces = true;
 		boolean isToken = false;
 		boolean isDoubleQuotes = false;
@@ -124,7 +126,7 @@ public class ScriptParser {
 		// for each command of script ...
 		for (int i=0; i<tableOfCommands.size(); i++) {
 			RecordOf recordOfCommandScript = tableOfCommands.get(i);
-			System.out.print("\rRow: "+i+" ...");
+			System.out.print("\rRow: "+(i+1)+" ...");
 			if ( recordOfCommandScript.get("token#1") != null) {
 				if ( recordOfCommandScript.get("token#1").toUpperCase().equals("get".toUpperCase()) ) {
 					executeGet(recordOfCommandScript);
@@ -144,6 +146,9 @@ public class ScriptParser {
 				} else if ( recordOfCommandScript.get("token#1").toUpperCase().equals("click".toUpperCase()) ) { 
 					executeClick(recordOfCommandScript);
 					
+				} else if ( recordOfCommandScript.get("token#1").toUpperCase().equals("submit".toUpperCase()) ) { 
+					executeSubmit(recordOfCommandScript);
+					
 				} else if ( recordOfCommandScript.get("token#1").toUpperCase().equals("exportTableAsCsv".toUpperCase()) ) { 
 					executeExportTableAsCsv(recordOfCommandScript);
 					
@@ -153,15 +158,46 @@ public class ScriptParser {
 				} else if ( recordOfCommandScript.get("token#1").toUpperCase().equals("restoreTextFrom".toUpperCase()) ) { 
 					executeRestoreTextFrom(recordOfCommandScript);
 					
+				} else if ( recordOfCommandScript.get("token#1").toUpperCase().equals("selectOptionBy".toUpperCase()) ) { 
+					executeSelectOptionBy(recordOfCommandScript);
+					
 				} else { 
 					// Warning: Unrecognized command will be skipped
 					System.out.println("\n" + MSG_TXT_WARN_UNRECOGNIZED_COMMAND.replaceAll("%s", recordOfCommandScript.get("token#1")));
 				}
+			} else {
+				// Warning: Empty command line skipped
+				System.out.println("\n" + MSG_TXT_WARN_EMPTY_COMMAND_LINE_SKIPPED);
 			}
 		}
 	}
 	
-	
+	/*
+	 * executeSelectOptionBy( recordOfCommand )
+	 */
+	private void executeSelectOptionBy(RecordOf recordOfCommand) throws Exception {
+		if (recordOfCommand.get("token#2") != null) {
+			if (recordOfCommand.get("token#3") != null) {
+				if ( recordOfCommand.get("token#2").toUpperCase().equals("INDEX")
+						|| recordOfCommand.get("token#2").toUpperCase().equals("VALUE") 
+						|| recordOfCommand.get("token#2").toUpperCase().equals("VISIABLETEXT") ) {
+					webPage.selectOptionBy(recordOfCommand.get("token#2"), recordOfCommand.get("token#3"));				
+				} else {
+					// Warning: Missing parameters command will be skipped
+					System.out.println(MSG_TXT_WARN_UNRECOGNIZED_PARAMETERS.replaceFirst("%s", recordOfCommand.get("token#1")).replaceFirst("%s", recordOfCommand.get("token#2") ));				
+				}			
+			} else {
+				// Warning: Missing parameters command will be skipped
+				System.out.println(MSG_TXT_WARN_MISSING_PARAMETERS.replaceFirst("%s", recordOfCommand.get("token#3")).replaceFirst("%s", "[<Index>|\"Value\"]"));				
+			}			
+		} else {
+			// Warning: Missing parameters command will be skipped
+			System.out.println(MSG_TXT_WARN_MISSING_PARAMETERS.replaceFirst("%s", recordOfCommand.get("token#2")).replaceFirst("%s", "[Index|Value]"));			
+		}
+
+	}
+
+
 	/*
 	 * executeGet( recordOfCommand ) - Execute WebDriver get( url )
 	 */
@@ -229,6 +265,11 @@ public class ScriptParser {
 	}
 	
 	
+	private void executeSubmit(RecordOf recordOfCommand) throws Exception {
+		webPage.submit();
+	}
+	
+	
 	private void executeStoreTextInto(RecordOf recordOfCommand) throws Exception {
 		if (recordOfCommand.get("token#2") != null ) {
 			if (recordOfCommand.get("token#2").equals("") ) {
@@ -255,7 +296,14 @@ public class ScriptParser {
 	
 	
 	private void executeExportTableAsCsv(RecordOf recordOfCommand) {
-		// TODO Auto-generated method stub
+		if ( webPage != null) {
+			System.out.println(webPage.getCurrentWebElement().getClass() );
+			
+		} else {
+			// Error: Missing parameters command will be skipped
+			System.out.println(MSG_TXT_ERROR_WEBPAGE_ISNULL);
+			System.exit(-1);
+		}
 		
 	}
 	

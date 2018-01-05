@@ -1,4 +1,4 @@
-package org.gnu.walle.pageObjects;
+package org.gnu.automation.walle.pageObjects;
 
 import java.util.concurrent.TimeUnit;
 
@@ -6,14 +6,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.Select;
 
 public class WebPage {
 	
 	// private properties ...
 	private static WebDriver driver;
-	private WebDriverWait webDriverWait;
 	private WebElement webElement;
 	
 	
@@ -30,7 +29,9 @@ public class WebPage {
 	public WebDriver getWebDriver() {
 		if (driver==null) {
 			System.setProperty("webdriver.chrome.driver", "resource\\chromedriver.exe");
-			driver = new ChromeDriver();
+			ChromeOptions options = new ChromeOptions();
+			options.addArguments("start-maximized");
+			driver = new ChromeDriver(options);
 		}
 		return driver;
 	}
@@ -61,6 +62,13 @@ public class WebPage {
 	
 	
 	/*
+	 * WebElement getCurrentWebElement() - Return current webElement found
+	 */
+	public WebElement getCurrentWebElement() {
+		return webElement;
+	}
+	
+	/*
 	 * sendKeys( keys) - Find an element by xpath and store into current webElement
 	 */
 	public void sendKeys(String keys) {
@@ -79,6 +87,15 @@ public class WebPage {
 		}
 	}
 	
+	/*
+	 * submit() - Submit a form
+	 */
+	public void submit() {
+		if (webElement != null) {
+			webElement.submit();  
+		}
+	}
+
 	
 	/*
 	 * clear() - Clear current webElement selected
@@ -119,6 +136,30 @@ public class WebPage {
 		if (driver!=null) {
 			driver.close();
 		}
+	}
+	
+	/*
+	 * selectOptionBy() - Select option by
+	 */
+	public void selectOptionBy(String... args) {
+		if (webElement != null) {
+			Select select=new Select(webElement);
+			if (args != null) {
+				if (args.length == 2) {
+					if (args[0].toUpperCase().equals("INDEX")) {
+						select.selectByIndex(Integer.parseInt(args[1]));
+						
+					} else if (args[0].toUpperCase().equals("INDEX")) {
+						select.selectByValue(args[1]);
+						
+					} else if (args[0].toUpperCase().equals("VISIABLETEXT")) {
+						select.selectByVisibleText(args[1]);
+						
+					}
+				}
+			}
+		}
+		
 	}
 	
 	

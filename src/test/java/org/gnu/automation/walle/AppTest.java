@@ -1,4 +1,4 @@
-package br.com.inmetrics.automacao.walle;
+package org.gnu.automation.walle;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

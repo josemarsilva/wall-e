@@ -1,4 +1,4 @@
-package org.gnu.walle.util;
+package org.gnu.automation.walle.util;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -6,7 +6,6 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 
 /**
  * Title:        TableOf

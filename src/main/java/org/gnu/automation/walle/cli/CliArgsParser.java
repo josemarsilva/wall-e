@@ -1,4 +1,4 @@
-package org.gnu.walle.cli;
+package org.gnu.automation.walle.cli;
 
 import org.apache.commons.cli.DefaultParser; 
 import org.apache.commons.cli.CommandLine; 
@@ -35,7 +35,11 @@ public class CliArgsParser {
 			+  "|_-_-_|'-------'|_-_-_|  " + "\n"
 			+  "|_-_-_|         |_-_-_|  " + "https://github.com/josemarsilva/wall-e" + "\n"
 			);
-	private final String WALL_E_SHORT_HISTORY = new String("WALL-E, abbreviation for Waste Allocation Load Lifter Earth-class, is the last robot left on Earth. He spends his day packing the garbage on the planet. But for 700 years, WALL-E has developed a personality and is more than a robot. Upon seeing Eve, a mechanical probe on Earth mission, he falls in love and resolves to follow her throughout the galaxy.");
+	private final String WALL_E_SHORT_HISTORY = new String("WALL-E, abbreviation for Waste Allocation Load Lifter Earth-class, is the last " + "\n"
+			                                             + "robot left on Earth. He spends his day packing the garbage on the  planet. But " + "\n"
+			                                             + "for 700 years, WALL-E has developed a personality and is  more  than  a robot. " + "\n"
+			                                             + "Upon seeing Eve, a mechanical probe on Earth mission,  he  falls  in  love and " + "\n"
+			                                             + "resolves to follow her throughout the galaxy.\n\nLooking for Eve ...");
 
 	
 	// private properties ...

@@ -1,15 +1,13 @@
-package org.gnu.walle;
+package org.gnu.automation.walle;
 
-import org.apache.commons.cli.ParseException;
-
-import org.gnu.walle.cli.CliArgsParser;
-import org.gnu.walle.script.ScriptParser;
+import org.gnu.automation.walle.cli.CliArgsParser;
+import org.gnu.automation.walle.scriptCommand.ScriptParser;
 
 /**
  * Hello world!
  *
  */
-public class Main 
+public class AppMain 
 {
     public static void main( String[] args ) throws Exception
     {
