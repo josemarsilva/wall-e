@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.gnu.automation.walle.pageObjects.WebPage;
 import org.gnu.automation.walle.util.RecordOf;
@@ -27,7 +28,7 @@ public class ScriptParser {
 	
 	
 	/**
-	 * parseFile() - 
+	 * parseFile() - read script file with commands
 	 * @throws Exception 
 	 */
 	public void parseFile(String scriptFilename) throws Exception {
@@ -59,53 +60,50 @@ public class ScriptParser {
 	
 	
 	/**
-	 * parseCommand() - 
+	 * parseCommand() - parse read row into command structure {[token#1, value#1], [token#2, value#2], .., [token#n, value#n]}  
 	 * @throws Exception 
 	 */
 	public void parseCommand(String sCommandLine) throws Exception {
 		RecordOf recordOfCommandTokens = new RecordOf(); 
-		int tokenNumber = 0;
-		int tokenBeginIndex = 0;
-		boolean isSpaces = true;
-		boolean isToken = false;
-		boolean isDoubleQuotes = false;
-		for (int positionIndex = 0; positionIndex<sCommandLine.length(); positionIndex++) {
-			if (isSpaces) { // Still spaces?
-				// Is *NOT* empty space ...
-				if (sCommandLine.charAt(positionIndex) != ' ' && 
-					sCommandLine.charAt(positionIndex) != '\t' ) {
-					isSpaces = false;
-					isToken = true;
-					tokenBeginIndex = positionIndex;
-					tokenNumber++;
-					if (sCommandLine.charAt(positionIndex) == '"') {
-						isDoubleQuotes = true;
-					}
+		
+		// ReplaceAll \t [tabs] for " " and "  " for " " 
+		String sCmdLinePrepared = new String( sCommandLine );
+		while (sCmdLinePrepared.contains("\t") || sCmdLinePrepared.contains("  ")) {
+			sCmdLinePrepared = new String( sCmdLinePrepared.replaceAll("\t", " ").replaceAll("  ", " ") );
+		}
+		
+		// Replace RightTrim() and LeftTrim()
+		sCmdLinePrepared = new String( sCmdLinePrepared.replaceAll("\\s+$", "") ) ;
+		sCmdLinePrepared = new String( sCmdLinePrepared.replaceAll("^\\s+", "") ) ;
+		
+		// Replace spaces outside opening-and-closing quotes (") for \t [TAB]
+		boolean bOpenedQuotes = false;
+		for (int i=0; i<sCmdLinePrepared.length(); i++) {
+			if (bOpenedQuotes) { // OpendQuotes = TRUE
+				if (sCmdLinePrepared.charAt(i) == '"') {
+					bOpenedQuotes = false;
 				}
-			} else { // *NOT* still empty space ...
-				// Is empty space ...
-				if ((sCommandLine.charAt(positionIndex) == ' ' || sCommandLine.charAt(positionIndex) == '\t')) {
-					if (isDoubleQuotes){
-						recordOfCommandTokens.set("token#"+tokenNumber, sCommandLine.substring(tokenBeginIndex+1, positionIndex-1));
-						
-					} else {
-						recordOfCommandTokens.set("token#"+tokenNumber, sCommandLine.substring(tokenBeginIndex, positionIndex));
-						
-					}
-					isSpaces = true;
-					isToken = false;
-					tokenBeginIndex = positionIndex;
-					isDoubleQuotes = false;
+			} else { // OpendQuotes = FALSE
+				// Replace space for tab outside quotes
+				if (sCmdLinePrepared.charAt(i) == ' ') {
+					sCmdLinePrepared = new String(sCmdLinePrepared.substring(0,i)+'\t'+sCmdLinePrepared.substring(i+1) );
 				}
-				
+				// Check open quotes
+				if (sCmdLinePrepared.charAt(i) == '"') {
+					bOpenedQuotes = true;
+				}
 			}
 		}
-		if (isToken) {
-			if (isDoubleQuotes){
-				recordOfCommandTokens.set("token#"+tokenNumber, sCommandLine.substring(tokenBeginIndex+1, sCommandLine.length()-1));
-
-			} else {
-				recordOfCommandTokens.set("token#"+tokenNumber, sCommandLine.substring(tokenBeginIndex, sCommandLine.length()));
+		
+		// Tokenize words with \t [TAB] separator
+		String[] splitedCmdLine = sCmdLinePrepared.split("\t");
+		for (int i=0;i<splitedCmdLine.length;i++) {
+			if (splitedCmdLine[i].length() > 0) {
+				if (splitedCmdLine[i].charAt(0) == '"' && splitedCmdLine[i].charAt(splitedCmdLine[i].length()-1) == '"') {
+					recordOfCommandTokens.set("token#"+(i+1), splitedCmdLine[i].substring(1, splitedCmdLine[i].length()-1));
+				} else {					
+					recordOfCommandTokens.set("token#"+(i+1), splitedCmdLine[i]);
+				}					
 			}
 		}
 		
