@@ -3,7 +3,7 @@ wait                5000
 findElementByXPath  .//*[@id='UserName']
 sendKeys            josemarsilva
 findElementByXPath  .//*[@id='Password']
-sendKeys            F11r3g4tt1
+sendKeys            
 findElementByXPath  .//*[@id='LoginButton']
 click
 get					http://aplic.inmetrics.com.br/sig/Paginas/AvaliacaoDesempenho.aspx

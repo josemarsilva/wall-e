@@ -3,7 +3,7 @@ wait                5000
 findElementByxpath  ".//*[@id='fun_Id']"
 sendKeys            10260371823
 findElementByxpath  ".//*[@id='fun_Senha']"
-sendKeys            10260371823
+sendKeys            
 findElementByxpath  ".//*[@id='btnSubmitLogn']"
 click               
 wait                5000

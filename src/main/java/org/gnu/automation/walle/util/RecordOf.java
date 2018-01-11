@@ -17,12 +17,11 @@ public class RecordOf {
 	
 //	final static Logger logger = Logger.getLogger(RecordOf.class);
 	
-	private Map<String, String> recordOfKeyValue;
-	
+	private Map<String, String> recordOfKeyValue;	
 	private List<String> listOfKeys = null;
 	
 	/**
-	 * Construtor
+	 * RecordOf () - Construtor
 	 */
 	public RecordOf() {
 		recordOfKeyValue = new HashMap<String,String>();
@@ -30,26 +29,33 @@ public class RecordOf {
 	}
 	
 	/**
-	 * get() - Get the value of a RecordOf key
+	 * get (key) - Get the value of a RecordOf key
+	 * 
+	 * @param key Key to get
+	 * 
 	 */
 	public String get(String key) throws Exception {
-//		logger.debug("get('"+key+"')");
 		return recordOfKeyValue.get(key);
 	}
 	
 	/**
-	 * set() - Set the value of a RecordOf key
+	 * set (key,value) - Set the value of a RecordOf key
+	 * 
+	 * @param key   Key to be set
+	 * @param value Value to be set
+	 * 
 	 */
 	public void set(String key, String value) {
-//		logger.debug("set('"+key+"', '"+value+"' )");
 		recordOfKeyValue.put(key, value);
 		listOfKeys.add(key);
 	}
 	
 	
 	/**
-	 * getListOfKeys - Return List of keys sort by add order 
+	 * getListOfKeys - Return List of keys sort by add order
+	 *  
 	 * @return
+	 * 
 	 */
 	public List<String> getListOfKeys() {
 		return listOfKeys;

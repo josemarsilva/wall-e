@@ -5,7 +5,4 @@ sendKeys            josemarsilva
 clear
 click
 submit
-exportTableAsCsv
-storeTextInto 
-restoreTextFrom 
 selectOptionBy

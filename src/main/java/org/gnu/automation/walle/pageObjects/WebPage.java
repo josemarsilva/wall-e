@@ -9,6 +9,14 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.Select;
 
+/*
+ * WebPage class is responsible for interact with Selenium web driver, 
+ * instanciate driver, get url, find web elements, do actions on web 
+ * elements
+ * 
+ * @author josemarsilva
+ * 
+ */
 public class WebPage {
 	
 	// private properties ...
@@ -86,16 +94,6 @@ public class WebPage {
 			webElement.click();  
 		}
 	}
-	
-	/*
-	 * submit() - Submit a form
-	 */
-	public void submit() {
-		if (webElement != null) {
-			webElement.submit();  
-		}
-	}
-
 	
 	/*
 	 * clear() - Clear current webElement selected

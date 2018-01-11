@@ -8,7 +8,13 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options; 
 import org.apache.commons.cli.ParseException; 
 
-
+/*
+ * CliArgsParser class is responsible for extract, compile and check consistency
+ * for command line arguments passed as parameters in command line
+ * 
+ * @author josemarsilva
+ * 
+ */
 public class CliArgsParser {
 	
 	// private constants ...

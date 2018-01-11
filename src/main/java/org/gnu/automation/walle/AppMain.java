@@ -1,11 +1,13 @@
 package org.gnu.automation.walle;
 
 import org.gnu.automation.walle.cli.CliArgsParser;
-import org.gnu.automation.walle.scriptCommand.ScriptParser;
+import org.gnu.automation.walle.scriptLanguage.ScriptParser;
 
-/**
- * Hello world!
- *
+/*
+ * AppMain class is main application point of starting
+ * 
+ * @author josemarsilva
+ * 
  */
 public class AppMain 
 {
