@@ -1,2 +1,0 @@
-loadTableFrom       tableName1      excel       ./doc/samples/sample-1.xlsx
-loadTableFrom		tableName2		excel		./doc/samples/sample-2.xls

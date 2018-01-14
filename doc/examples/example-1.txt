@@ -1,0 +1,15 @@
+# #############################################################################
+# filename: example-1.txt
+# date....: 2018-01-14
+# author..: josemarsilva@yahoo.com.br
+# Purpose.: Hello world from wall-e 
+# #############################################################################
+
+#
+# Get url
+#
+get                 "http://google.com"
+wait                5000
+findElementByXPath  .//*[@id='lst-ib']
+click
+sendkeys            "Wall-e github is saying: Hello world!"

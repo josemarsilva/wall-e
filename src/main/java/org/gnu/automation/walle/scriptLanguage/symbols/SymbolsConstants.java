@@ -6,8 +6,18 @@ package org.gnu.automation.walle.scriptLanguage.symbols;
  */
 public class SymbolsConstants {
 
-	public final static int SYMBOL_TYPE_VARIABLE = 0;
-	public final static int SYMBOL_TYPE_TABLE = 0;
+	// Constants ...
 	
-
+	public final static int SYMBOL_TYPE_CLIARGSPARAM = 1;
+	public final static int SYMBOL_TYPE_VARIABLE = 2;
+	public final static int SYMBOL_TYPE_TABLEOF = 3;
+	
+	public final static String SYMBOL_NAME_CLIARGSPARAM_PREFIX = "args";
+	
+	
+	// WARNING AND ERROR MESSAGES ... 
+	
+	public final static String MSG_TXT_ERROR_SYMBLE_TYPE_INVALID = new String("Error: Symbole type must be [ SYMBOL_TYPE_VARIABLE, SYMBOL_TYPE_CLIARGSPARAM]");
+	
+	
 }

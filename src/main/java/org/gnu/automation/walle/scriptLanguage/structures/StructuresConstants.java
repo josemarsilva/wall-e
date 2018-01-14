@@ -7,6 +7,8 @@ package org.gnu.automation.walle.scriptLanguage.structures;
 public class StructuresConstants {
 	
 	public final static String STRUCTURE_VARIABLE_PROPERTY_VALUE = "value";
+
+	// WARNING AND ERROR MESSAGES ... 
 	
 	public final static String MSG_TXT_ERROR_WORKBOOKSHEETTABLE_FILENAME_CANT_BE_NULL = new String("Error: Workbook file name can not be null");
 	public final static String MSG_TXT_ERROR_WORKBOOKSHEETTABLE_LOAD_EXCEPTION = new String("Error: Exception '%s' occurred when trying to load workbook '%s'");

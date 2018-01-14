@@ -8,6 +8,7 @@ public class ScriptLanguageConstants {
 	
 	// MESSAGES ...
 	
+	public final static String MSG_TXT_ERROR_COMMAND_ARG_FILENAME_UNDEFINED = "Error: '-f' filename command argument is undefined!";
 	public final static String MSG_TXT_WARN_UNRECOGNIZED_COMMAND = "Warning: Unrecognized command '%s' - command was ignored!";
 	public final static String MSG_TXT_WARN_MISSING_PARAMETERS = "Warning: Command '%s' require these parameters: '%s' - command was ignored!";
 	public final static String MSG_TXT_WARN_UNRECOGNIZED_PARAMETERS = "Warning: Command '%s' unrecognize parameter value: '%s' - command was ignored!";
@@ -17,6 +18,7 @@ public class ScriptLanguageConstants {
 	
 	// COMMANDS ...
 	
+	public final static String COMMAND_REMARK = "#".toUpperCase();
 	public final static String COMMAND_CLEAR = "clear".toUpperCase();
 	public final static String COMMAND_CLICK = "click".toUpperCase();
 	public final static String COMMAND_FINDELEMENTBYXPATH = "findElementByxpath".toUpperCase();
@@ -33,5 +35,10 @@ public class ScriptLanguageConstants {
 	public final static String TOKEN_NUMBER_2 = "token#2";
 	public final static String TOKEN_NUMBER_3 = "token#3";
 	public final static String TOKEN_NUMBER_4 = "token#4";
+	
+
+	// MISCELLANEOUS ...
+	public final static String COMMAND_ARG_FILENAME_PREFIX_HTTP = "HTTP://";
+	public final static String COMMAND_ARG_FILENAME_PREFIX_HTTPS = "HTTPS://";
 
 }
