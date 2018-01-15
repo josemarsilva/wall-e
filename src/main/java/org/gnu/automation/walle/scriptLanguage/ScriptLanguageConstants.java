@@ -25,7 +25,9 @@ public class ScriptLanguageConstants {
 	public final static String COMMAND_GET = "get".toUpperCase();
 	public final static String COMMAND_LOADTABLEFROM = "loadTableFrom".toUpperCase();
 	public final static String COMMAND_SELECTOPTIONBY = "selectOptionBy".toUpperCase();
+	public final static String COMMAND_SENDKEYENTER = "sendKeyEnter".toUpperCase();
 	public final static String COMMAND_SENDKEYS = "sendKeys".toUpperCase();
+	public final static String COMMAND_SETEXPRESSIONTOVARIABLE = "setExpressionToVariable".toUpperCase();
 	public final static String COMMAND_WAIT = "wait".toUpperCase();
 	
 	

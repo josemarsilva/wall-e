@@ -19,8 +19,8 @@ public class ScriptRunner {
 	private ScriptParser scriptParser;
 	private TableOf tableOfCommands = new TableOf();
 	private SymbolTable symbolTable = new SymbolTable();
-	private ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(symbolTable); 
 	private WebPage webPage = new WebPage();
+	private ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(symbolTable, webPage); 
 
 
 	/*
@@ -114,6 +114,9 @@ public class ScriptRunner {
 				} else if ( recordOfCommandScript.get(ScriptLanguageConstants.TOKEN_NUMBER_1).toUpperCase().equals(ScriptLanguageConstants.COMMAND_SENDKEYS) ) { 
 					executeSendKeys(recordOfCommandScript);
 					
+				} else if ( recordOfCommandScript.get(ScriptLanguageConstants.TOKEN_NUMBER_1).toUpperCase().equals(ScriptLanguageConstants.COMMAND_SENDKEYENTER) ) { 
+					executeSendKeyEnter(recordOfCommandScript);
+					
 				} else if ( recordOfCommandScript.get(ScriptLanguageConstants.TOKEN_NUMBER_1).toUpperCase().equals(ScriptLanguageConstants.COMMAND_CLEAR) ) { 
 					executeClear(recordOfCommandScript);
 					
@@ -125,6 +128,9 @@ public class ScriptRunner {
 					
 				} else if ( recordOfCommandScript.get(ScriptLanguageConstants.TOKEN_NUMBER_1).toUpperCase().equals(ScriptLanguageConstants.COMMAND_SELECTOPTIONBY) ) { 
 					executeSelectOptionBy(recordOfCommandScript);
+					
+				} else if ( recordOfCommandScript.get(ScriptLanguageConstants.TOKEN_NUMBER_1).toUpperCase().equals(ScriptLanguageConstants.COMMAND_SETEXPRESSIONTOVARIABLE) ) { 
+					executeSetExpressionToVariable(recordOfCommandScript);
 					
 				} else { 
 					// Warning: Unrecognized command will be skipped
@@ -217,7 +223,7 @@ public class ScriptRunner {
 	}
 	
 	
-	private String evaluate(String expression) {
+	private String evaluate(String expression) throws Exception {
 		return this.expressionEvaluator.evaluate(expression);
 	}
 	
@@ -231,6 +237,11 @@ public class ScriptRunner {
 				webPage.sendKeys(evaluate(recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2)));
 			}
 		}
+	}
+	
+	
+	private void executeSendKeyEnter(RecordOf recordOfCommand) throws Exception {
+		webPage.sendKeyEnter();
 	}
 	
 	
@@ -253,7 +264,7 @@ public class ScriptRunner {
 							if (!recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_4).equals("") ) {
 								WorkbookSheetTable workbookSheetTable = new WorkbookSheetTable(recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_4));
 								TableOf tableOf = workbookSheetTable.getTableOfWorkbookSheetTable();
-								symbolTable.add(recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2), org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_TYPE_TABLEOF, tableOf);
+								symbolTable.add(recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2), tableOf);
 							} else {
 								// Warning: Missing parameters command will be skipped
 								System.out.println(ScriptLanguageConstants.MSG_TXT_WARN_MISSING_PARAMETERS.replaceFirst("%s", recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_3)).replaceFirst("%s", "dataSource"));
@@ -279,7 +290,39 @@ public class ScriptRunner {
 			System.out.println(ScriptLanguageConstants.MSG_TXT_WARN_MISSING_PARAMETERS.replaceFirst("%s", recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_1)).replaceFirst("%s", "tableName"));
 		}
 	}
-
+	
+	
+	/*
+	 * executeSetExpressionToVariable( expression, variable ) - Set value evaluated by expression into variable ...
+	 */
+	private void executeSetExpressionToVariable(RecordOf recordOfCommand) throws Exception {
+		if (recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2) != null) {
+			if (!recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2).equals("")) {
+				if (recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_3) != null) {
+					if (!recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_3).equals("")) {
+						RecordOf symbolRecordOf = new RecordOf();
+						String symbolName = new String(recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_3)); 
+						symbolRecordOf.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_SYMBOLTYPE, org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_TYPE_VARIABLE);
+						symbolRecordOf.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_VALUE, evaluate(recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2)));
+						symbolTable.add(symbolName, symbolRecordOf);						
+						
+					} else {
+						// Warning: Missing parameters command will be skipped
+						System.out.println(ScriptLanguageConstants.MSG_TXT_WARN_MISSING_PARAMETERS.replaceFirst("%s", recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_3)).replaceFirst("%s", "<variable>"));			
+					}			
+				} else {
+					// Warning: Missing parameters command will be skipped
+					System.out.println(ScriptLanguageConstants.MSG_TXT_WARN_MISSING_PARAMETERS.replaceFirst("%s", recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_3)).replaceFirst("%s", "<variable>"));			
+				}			
+			} else {
+				// Warning: Missing parameters command will be skipped
+				System.out.println(ScriptLanguageConstants.MSG_TXT_WARN_MISSING_PARAMETERS.replaceFirst("%s", recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2)).replaceFirst("%s", "<expression>"));			
+			}			
+		} else {
+			// Warning: Missing parameters command will be skipped
+			System.out.println(ScriptLanguageConstants.MSG_TXT_WARN_MISSING_PARAMETERS.replaceFirst("%s", recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2)).replaceFirst("%s", "<expression>"));			
+		}
+	}
 	
 
 }

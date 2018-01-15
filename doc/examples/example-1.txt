@@ -12,4 +12,5 @@ get                 "http://google.com"
 wait                5000
 findElementByXPath  .//*[@id='lst-ib']
 click
-sendkeys            "Wall-e github is saying: Hello world!"
+sendKeys            "Wall-e automation robot is saying: Hello world!"
+sendKeyEnter

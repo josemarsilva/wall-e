@@ -1,0 +1,32 @@
+# #############################################################################
+# filename: example-3.txt
+# date....: 2018-01-14
+# author..: josemarsilva@yahoo.com.br
+# Purpose.: Get webElement values, evaluate expression and set to variable 
+# #############################################################################
+
+#
+# Get url
+#
+get                 		"http://eliasnogueira.com/arquivos_blog/selenium/desafio/1desafio/"
+wait                		5000
+
+#
+# Get web elements ...
+#
+findElementByXPath			.//*[@id='number1']
+setExpressionToVariable		lastWebElementFound		number1	
+findElementByXPath			.//*[@id='number2']
+setExpressionToVariable		lastWebElementFound		number2
+
+#
+# Evaluate sum ... 
+#
+setExpressionToVariable		"number1 + number2"		sumResult	
+
+findElementByXPath			.//*[@name='soma']
+sendKeys					sumResult
+
+findElementByXPath			.//*[@name='submit']
+wait                		15000
+click

@@ -1,5 +1,8 @@
 package org.gnu.automation.walle.scriptLanguage.expressions;
 
+import java.util.List;
+
+import org.gnu.automation.walle.pageObjects.WebPage;
 import org.gnu.automation.walle.scriptLanguage.symbols.SymbolTable;
 
 /*
@@ -11,31 +14,38 @@ public class ExpressionEvaluator {
 	// properties ...
 	
 	SymbolTable symbolTable;
+	WebPage webPage;
 	
-	public ExpressionEvaluator(SymbolTable s) {
-		this.symbolTable = s;
+	public ExpressionEvaluator(SymbolTable st, WebPage wp) {
+		this.symbolTable = st;
+		this.webPage = wp;
 	}
 
 	/*
 	 * evaluate(expression) - return string value result for expression evaluation ...
 	 */
-	public String evaluate(String expression) {
+	public String evaluate(String expression) throws Exception {
+		String expressionEvaluated = new String(expression);
 		if (expression!=null) {
 			if (!expression.equals("")) {
-					return variableReplacement(expression);
+				List<String> keySetVariable = symbolTable.keySetSymbolTableVariable();
+				for (int i=0;i<keySetVariable.size();i++) {
+					if (!keySetVariable.get(i).equals("")) {
+						String replacement = new String(keySetVariable.get(i));
+						if (symbolTable.getSymbolTypeSymbolTableVariable(keySetVariable.get(i)).equals(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_NAME_LASTWEBELEMENTFOUND)) {
+							replacement = webPage.getText();
+						} else {
+							replacement = symbolTable.getValueSymbolTableVariable(keySetVariable.get(i));
+						}
+						// variables replacement on expression ...
+						expressionEvaluated = expressionEvaluated.replaceAll( (keySetVariable.get(i)).replaceAll("\\[", "\\\\[").replaceAll("\\]", "\\\\]"), replacement);
+					}
+				}
 			}
 		}
 		// return untouched expression ...
-		return expression;
+		return expressionEvaluated;
 	}
 	
-	/*
-	 * 
-	 */
-	private String variableReplacement(String expression) {
-		
-		// return untouched expression ...
-		return expression;
-	}
 
 }

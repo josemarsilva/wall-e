@@ -8,11 +8,16 @@ public class SymbolsConstants {
 
 	// Constants ...
 	
-	public final static int SYMBOL_TYPE_CLIARGSPARAM = 1;
-	public final static int SYMBOL_TYPE_VARIABLE = 2;
-	public final static int SYMBOL_TYPE_TABLEOF = 3;
+	public final static String SYMBOL_TYPE_CLIARGSPARAM = "cliArgsParam";
+	public final static String SYMBOL_TYPE_VARIABLE = "variable";
+	public final static String SYMBOL_TYPE_TABLEOF = "table";
+	public final static String SYMBOL_TYPE_LASTWEBELEMENTFOUND = "lastWebElementFound";
+	
+	public final static String SYMBOL_ATTRIBUTE_VALUE = "value";
+	public final static String SYMBOL_ATTRIBUTE_SYMBOLTYPE = "symbolType";
 	
 	public final static String SYMBOL_NAME_CLIARGSPARAM_PREFIX = "args";
+	public final static String SYMBOL_NAME_LASTWEBELEMENTFOUND = "lastWebElementFound";
 	
 	
 	// WARNING AND ERROR MESSAGES ... 

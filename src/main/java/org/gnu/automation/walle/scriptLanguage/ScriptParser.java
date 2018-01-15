@@ -113,14 +113,17 @@ public class ScriptParser {
 	public void parsePass2(SymbolTable symbolTable, CliArgsParser cliArgsParser, TableOf tableOfCommands) {
 		System.out.println("Parsing Pass #2: Build Program Symbol Table ...");
 		
-		// Build args[i] Symble Table ...
+		// Build args[i] Symbol Table ...
 		buildArgsSymbolTable(symbolTable, cliArgsParser);
+		
+		// Build args[i] Symbol Table ...
+		buildInternalSymbolTable(symbolTable);
 				
 	}
 	
 	
 	/*
-	 * buildArgsSymbolTable() - Build args Symble Table
+	 * buildArgsSymbolTable() - Build args Symbol Table
 	 */
 	private void buildArgsSymbolTable(SymbolTable symbolTable, CliArgsParser cliArgsParser) {
 		for (int i=1;i<=8;i++) {
@@ -128,12 +131,25 @@ public class ScriptParser {
 			if (argsParam!=null) {
 				if (!argsParam.equals("")) {
 					RecordOf symbolRecordOf = new RecordOf();
-					symbolRecordOf.set("value", argsParam);
-					symbolTable.add(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_NAME_CLIARGSPARAM_PREFIX + "[" + i + "]", org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_TYPE_CLIARGSPARAM, symbolRecordOf);
+					String symbolName = new String(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_NAME_CLIARGSPARAM_PREFIX + "[" + i + "]"); 
+					symbolRecordOf.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_SYMBOLTYPE, org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_TYPE_CLIARGSPARAM);
+					symbolRecordOf.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_VALUE, argsParam);
+					symbolTable.add(symbolName, symbolRecordOf);
 				}
 			}
 		}
 	}
+
 	
+	/*
+	 * buildInternalSymbolTable(symbolTable) - Build internal Symbol Table 
+	 */
+	private void buildInternalSymbolTable(SymbolTable symbolTable) {
+		RecordOf symbolRecordOf = new RecordOf();
+		String symbolName = new String(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_NAME_LASTWEBELEMENTFOUND); 
+		symbolRecordOf.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_SYMBOLTYPE, org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_TYPE_LASTWEBELEMENTFOUND);
+		symbolTable.add(symbolName, symbolRecordOf);
+	}
+
 	
 }

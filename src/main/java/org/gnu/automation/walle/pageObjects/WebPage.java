@@ -3,6 +3,7 @@ package org.gnu.automation.walle.pageObjects;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -77,11 +78,21 @@ public class WebPage {
 	}
 	
 	/*
-	 * sendKeys( keys) - Find an element by xpath and store into current webElement
+	 * sendKeys( keys) - Send a sequence of keys pressed ...
 	 */
 	public void sendKeys(String keys) {
 		if (webElement != null) {
 			webElement.sendKeys(keys);  
+		}
+	}
+	
+	
+	/*
+	 * sendKeyEnter() - Send enter key pressed ...
+	 */
+	public void sendKeyEnter() {
+		if (webElement != null) {
+			webElement.sendKeys(Keys.RETURN);  
 		}
 	}
 	
@@ -159,6 +170,6 @@ public class WebPage {
 		}
 		
 	}
-	
-	
+
+
 }
