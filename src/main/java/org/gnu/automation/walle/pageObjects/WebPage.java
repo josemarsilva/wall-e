@@ -170,6 +170,14 @@ public class WebPage {
 		}
 		
 	}
+	
+	
+	/*
+	 * quit() - calls driver.dispose method which in turn closes all the browser windows and ends the WebDriver session gracefully.
+	 */
+	public void quit() {
+		driver.quit();
+	}
 
 
 }

@@ -71,6 +71,7 @@ public class ScriptRunner {
 	
 	
 	private void finish() {
+		webPage.quit();
 		System.out.println("\n\nBye !\n");
 		
 	}
@@ -223,6 +224,11 @@ public class ScriptRunner {
 	}
 	
 	
+	private String symbolReplacement(String expression) throws Exception {
+		return this.expressionEvaluator.symbolReplacement(expression);
+	}
+	
+	
 	private String evaluate(String expression) throws Exception {
 		return this.expressionEvaluator.evaluate(expression);
 	}
@@ -234,7 +240,7 @@ public class ScriptRunner {
 				// Warning: Missing parameters command will be skipped
 				System.out.println(ScriptLanguageConstants.MSG_TXT_WARN_MISSING_PARAMETERS.replaceFirst("%s", recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_1)).replaceFirst("%s", "<keys>"));
 			} else {
-				webPage.sendKeys(evaluate(recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2)));
+				webPage.sendKeys(symbolReplacement(recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2)));
 			}
 		}
 	}
@@ -303,7 +309,7 @@ public class ScriptRunner {
 						RecordOf symbolRecordOf = new RecordOf();
 						String symbolName = new String(recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_3)); 
 						symbolRecordOf.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_SYMBOLTYPE, org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_TYPE_VARIABLE);
-						symbolRecordOf.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_VALUE, evaluate(recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2)));
+						symbolRecordOf.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_VALUE, evaluate(symbolReplacement(recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2))));
 						symbolTable.add(symbolName, symbolRecordOf);						
 						
 					} else {

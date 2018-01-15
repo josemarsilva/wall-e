@@ -5,6 +5,8 @@ import java.util.List;
 import org.gnu.automation.walle.pageObjects.WebPage;
 import org.gnu.automation.walle.scriptLanguage.symbols.SymbolTable;
 
+import com.udojava.evalex.Expression;
+
 /*
  * ExpressionEvaluator class is responsible for variable replacement for 
  * respective contents and expression evaluation 
@@ -22,9 +24,9 @@ public class ExpressionEvaluator {
 	}
 
 	/*
-	 * evaluate(expression) - return string value result for expression evaluation ...
+	 * symbolReplacement(expression) - return string value result for expression evaluation ...
 	 */
-	public String evaluate(String expression) throws Exception {
+	public String symbolReplacement(String expression) throws Exception {
 		String expressionEvaluated = new String(expression);
 		if (expression!=null) {
 			if (!expression.equals("")) {
@@ -45,6 +47,15 @@ public class ExpressionEvaluator {
 		}
 		// return untouched expression ...
 		return expressionEvaluated;
+	}
+
+	
+	/*
+	 * evaluate(expression) - Return string of evaluated expression
+	 */
+	public String evaluate(String expression) {
+		Expression expressionEvaluated = new Expression(expression);
+		return expressionEvaluated.eval().toPlainString();
 	}
 	
 

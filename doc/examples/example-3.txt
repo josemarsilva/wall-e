@@ -2,11 +2,12 @@
 # filename: example-3.txt
 # date....: 2018-01-14
 # author..: josemarsilva@yahoo.com.br
-# Purpose.: Get webElement values, evaluate expression and set to variable 
+# Purpose.: Get and set values into webElement, store values into variables and
+#           calculate values in expression 
 # #############################################################################
 
 #
-# Get url
+# Get url ...
 #
 get                 		"http://eliasnogueira.com/arquivos_blog/selenium/desafio/1desafio/"
 wait                		5000
@@ -24,9 +25,15 @@ setExpressionToVariable		lastWebElementFound		number2
 #
 setExpressionToVariable		"number1 + number2"		sumResult	
 
+#
+# Set the result ...
+#
 findElementByXPath			.//*[@name='soma']
 sendKeys					sumResult
 
-findElementByXPath			.//*[@name='submit']
+#
+# Submit the result ...
+#
 wait                		15000
+findElementByXPath			.//*[@name='submit']
 click
