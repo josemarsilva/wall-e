@@ -1,41 +1,19 @@
 # #############################################################################
-# filename: example-2.txt
-# date....: 2018-01-14
+# filename: example-4.txt
+# date....: 2018-01-16
 # author..: josemarsilva@yahoo.com.br
-# Purpose.: Presents all command possibilities  
+# Purpose.: Manipulating table structures based on Excel files  
 # #############################################################################
 
 #
-# Load tables ...
+# Load into table structure 'tableFromXlsx' MS-Excel worksheet ...
 #
 loadTableFrom       tableFromXlsx      excel        ./doc/examples/example-1.xlsx
-loadTableFrom       tableFromXls       excel        ./doc/examples/example-2.xls
-
 
 #
-# Get target webapp system ...
+# Loop table ...
 #
-get                 "http://aplic.inmetrics.com.br/sig"
-wait                5000
-
-#
-# Login ...
-#
-findElementByXPath  .//*[@id='UserName']
-sendKeys            args[1]
-findElementByXPath  .//*[@id='Password']
-sendKeys            args[2]
-findElementByXPath  .//*[@id='LoginButton']
-click
-wait 5000
-get					http://aplic.inmetrics.com.br/sig/Paginas/AvaliacaoDesempenho.aspx
-wait                5000
-findElementByXPath  .//*[@id='ddlPratica']
-click
-selectOptionBy		visiableText	Automação
-
-#
-# Logoff from target webapp system and exit ... 
-#
-findElementByXPath  .//*[@id='lnkSair']
-click
+forEach		tableFromXlsx
+	get		http://www.google.com.br
+	wait	10000
+EndForEach

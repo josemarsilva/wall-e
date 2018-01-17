@@ -14,16 +14,20 @@ public class ScriptLanguageConstants {
 	public final static String MSG_TXT_WARN_UNRECOGNIZED_PARAMETERS = "Warning: Command '%s' unrecognize parameter value: '%s' - command was ignored!";
 	public final static String MSG_TXT_WARN_EMPTY_COMMAND_LINE_SKIPPED = "Warning: Empty command line was skipped!";
 	public final static String MSG_TXT_ERROR_WEBPAGE_ISNULL = "Error: WebPage was not instanced!";
+	public final static String MSG_TXT_ERROR_PARAM_TABLE_IS_UNDEFINED = "Warning: TableName parameter '%s' of command '%s' is undefined - command was ignored!";
+	public final static String MSG_TXT_ERROR_SYMBOL_IS_UNDEFINED = "Warning: SymbolName '%s' of command '%s' is undefined - command was ignored!";
 	
 	
 	// COMMANDS ...
 	
-	public final static String COMMAND_REMARK = "#".toUpperCase();
 	public final static String COMMAND_CLEAR = "clear".toUpperCase();
 	public final static String COMMAND_CLICK = "click".toUpperCase();
+	public final static String COMMAND_ENDFOREACH = "endForEach".toUpperCase();
+	public final static String COMMAND_FOREACH = "forEach".toUpperCase();
 	public final static String COMMAND_FINDELEMENTBYXPATH = "findElementByxpath".toUpperCase();
 	public final static String COMMAND_GET = "get".toUpperCase();
 	public final static String COMMAND_LOADTABLEFROM = "loadTableFrom".toUpperCase();
+	public final static String COMMAND_REMARK = "#".toUpperCase();
 	public final static String COMMAND_SELECTOPTIONBY = "selectOptionBy".toUpperCase();
 	public final static String COMMAND_SENDKEYENTER = "sendKeyEnter".toUpperCase();
 	public final static String COMMAND_SENDKEYS = "sendKeys".toUpperCase();

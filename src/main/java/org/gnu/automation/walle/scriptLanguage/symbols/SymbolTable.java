@@ -14,6 +14,7 @@ public class SymbolTable {
 	
 	private LinkedHashMap<String, RecordOf> symbolTableVariable = new LinkedHashMap<String, RecordOf>();
 	private LinkedHashMap<String, TableOf> symbolTableTableOf = new LinkedHashMap<String, TableOf>();
+	private LinkedHashMap<String, RecordOf> symbolTableProgramAddress = new LinkedHashMap<String, RecordOf>();
 
 
 	/*
@@ -24,21 +25,28 @@ public class SymbolTable {
 	
 	
 	/*
-	 * add(symbolName,symbolRecordOf) - Add to Symble Table a symbol ...
+	 * addVariable(symbolName,symbolRecordOf) - Add a symbol to Variable's table ...
 	 */
-	public void add(String symbolName, RecordOf symbolRecordOf ) {
+	public void addVariable(String symbolName, RecordOf symbolRecordOf ) {
 		symbolTableVariable.put(symbolName, symbolRecordOf);
 	}
 	
 	
 	/*
-	 * add(symbolName,symbolTableOf) - Add to symbol to SymbleTable ...
+	 * addTable(symbolName,symbolTableOf) - Add a symbol to Table's tables...
 	 */
-	public void add(String symbolName, TableOf symbolTableOf ) {
+	public void addTable(String symbolName, TableOf symbolTableOf ) {
 		symbolTableTableOf.put(symbolName, symbolTableOf);
-		
 	}
 	
+	
+	/*
+	 * ProgramAddress(symbolName,symbolRecordOf) - Add a symbol to ProgramAddress's tables...
+	 */
+	public void addProgramAddress(String symbolName, RecordOf symbolRecordOf ) {
+		symbolTableProgramAddress.put(symbolName, symbolRecordOf);
+	}
+
 	
 	/*
 	 * keySetSymbolTableVariable() - Returns a list with key set of symbolTableVariable
@@ -59,7 +67,34 @@ public class SymbolTable {
 	
 	
 	/*
-	 * getValueSymbolTableVariable(key) - Return attribute 'value' of symbol table key ...
+	 * containsKeyVariable() - Check if 'key' is contained in symbolTableVariable ... 
+	 * @return boolean
+	 */
+	public boolean containsKeyVariable(String key) {
+		return (symbolTableVariable.containsKey(key));
+	}
+
+	
+	/*
+	 * containsKeyTableOf() - Check if 'key' is contained in symbolTableTableOf ... 
+	 * @return boolean
+	 */
+	public boolean containsKeyTableOf(String key) {
+		return (symbolTableTableOf.containsKey(key));
+	}
+	
+
+	/*
+	 * containsKeyProgramAddress() - Check if 'key' is contained in symbolTableProgramAddress ... 
+	 * @return boolean
+	 */
+	public boolean containsKeyProgramAddress(String key) {
+		return (symbolTableProgramAddress.containsKey(key));
+	}
+
+	
+	/*
+	 * getValueSymbolTableVariable(key) - Return attribute 'value' of symbol table symbolTableVariable indexed by 'key' ...
 	 */
 	public String getValueSymbolTableVariable(String key) throws Exception {
 		return symbolTableVariable.get(key).get(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_VALUE);
@@ -67,10 +102,18 @@ public class SymbolTable {
 	
 
 	/*
-	 * getSymbolTypeSymbolTableVariable(key) - Return attribute 'type' of symbol table key ...
+	 * getSymbolTypeSymbolTableVariable(key) - Return attribute 'symbolType' of symbol table symbolTableVariable indexed by 'key' ...
 	 */
 	public String getSymbolTypeSymbolTableVariable(String key) throws Exception {
 		return symbolTableVariable.get(key).get(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_SYMBOLTYPE);
+	}
+	
+
+	/*
+	 * getValueSymbolTableProgramAddress(key) - Return attribute of symbol table symbolTableProgramAddress indexed by 'key' ...
+	 */
+	public String getAttributeSymbolTableProgramAddress(String key, String attribute) throws Exception {
+		return symbolTableProgramAddress.get(key).get(attribute);
 	}
 	
 

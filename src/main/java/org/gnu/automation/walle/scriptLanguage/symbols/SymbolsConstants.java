@@ -12,12 +12,17 @@ public class SymbolsConstants {
 	public final static String SYMBOL_TYPE_VARIABLE = "variable";
 	public final static String SYMBOL_TYPE_TABLEOF = "table";
 	public final static String SYMBOL_TYPE_LASTWEBELEMENTFOUND = "lastWebElementFound";
+	public final static String SYMBOL_TYPE_PROGRAMADDRESSSYMBOL= "ProgramAddressSymbol";
 	
 	public final static String SYMBOL_ATTRIBUTE_VALUE = "value";
 	public final static String SYMBOL_ATTRIBUTE_SYMBOLTYPE = "symbolType";
+	public final static String SYMBOL_ATTRIBUTE_FOREACH_BEGIN = "forEachBegin";
+	public final static String SYMBOL_ATTRIBUTE_FOREACH_END = "forEachEnd";
 	
 	public final static String SYMBOL_NAME_CLIARGSPARAM_PREFIX = "args";
 	public final static String SYMBOL_NAME_LASTWEBELEMENTFOUND = "lastWebElementFound";
+	public final static String SYMBOL_NAME_FOREACH_BEGIN_SUFIX = "begin";
+	public final static String SYMBOL_NAME_FOREACH_END_SUFIX = "end";
 	
 	
 	// WARNING AND ERROR MESSAGES ... 

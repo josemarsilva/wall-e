@@ -30,7 +30,7 @@ public class ScriptParser {
 			fr = new FileReader(scriptFilename);
 			br = new BufferedReader(fr);
 			// Parsing
-			System.out.println("Parsing Pass #1: Parse Program commands and parameters ...");
+			System.out.println("Parsing Pass #1: Parse Program Commands ...");
 			String sCurrentLine;
 			while ((sCurrentLine = br.readLine()) != null) {
 				parseCommand(sCurrentLine, tableOfCommands);
@@ -110,20 +110,23 @@ public class ScriptParser {
 	/*
 	 * parsePass2( tableOfCommands, symbolTable ) - Build symbolTable with commands ...
 	 */
-	public void parsePass2(SymbolTable symbolTable, CliArgsParser cliArgsParser, TableOf tableOfCommands) {
-		System.out.println("Parsing Pass #2: Build Program Symbol Table ...");
+	public void parsePass2(SymbolTable symbolTable, CliArgsParser cliArgsParser, TableOf programCommands) throws Exception {
+		System.out.println("Parsing Pass #2: Build Static Program Symbol Table ...");
 		
 		// Build args[i] Symbol Table ...
 		buildArgsSymbolTable(symbolTable, cliArgsParser);
 		
 		// Build args[i] Symbol Table ...
 		buildInternalSymbolTable(symbolTable);
+		
+		// Build Symbol Program Address Table ...
+		buildProgramAddressSymbolTable(symbolTable, programCommands);
 				
 	}
 	
 	
 	/*
-	 * buildArgsSymbolTable() - Build args Symbol Table
+	 * buildArgsSymbolTable() - Build args Symbol Table ( cliArgsParam )...
 	 */
 	private void buildArgsSymbolTable(SymbolTable symbolTable, CliArgsParser cliArgsParser) {
 		for (int i=1;i<=8;i++) {
@@ -134,7 +137,7 @@ public class ScriptParser {
 					String symbolName = new String(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_NAME_CLIARGSPARAM_PREFIX + "[" + i + "]"); 
 					symbolRecordOf.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_SYMBOLTYPE, org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_TYPE_CLIARGSPARAM);
 					symbolRecordOf.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_VALUE, argsParam);
-					symbolTable.add(symbolName, symbolRecordOf);
+					symbolTable.addVariable(symbolName, symbolRecordOf);
 				}
 			}
 		}
@@ -142,14 +145,91 @@ public class ScriptParser {
 
 	
 	/*
-	 * buildInternalSymbolTable(symbolTable) - Build internal Symbol Table 
+	 * buildInternalSymbolTable(symbolTable) - Build internal Symbol Table (lastWebElementFound) ...
 	 */
 	private void buildInternalSymbolTable(SymbolTable symbolTable) {
 		RecordOf symbolRecordOf = new RecordOf();
 		String symbolName = new String(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_NAME_LASTWEBELEMENTFOUND); 
 		symbolRecordOf.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_SYMBOLTYPE, org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_TYPE_LASTWEBELEMENTFOUND);
-		symbolTable.add(symbolName, symbolRecordOf);
+		symbolTable.addVariable(symbolName, symbolRecordOf);
 	}
+	
+	
+	/*
+	 * buildProgramAddressSymbolTable(symbolTable) - Build Program Address Symbol Table ...
+	 */
+	private void buildProgramAddressSymbolTable(SymbolTable symbolTable, TableOf programCommands) throws Exception {
+		
+		// Each command of program ...
+		for (int indexForEachBegin=0;indexForEachBegin<programCommands.size();indexForEachBegin++) {
+			
+			RecordOf command = programCommands.get(indexForEachBegin);
+			if (command.get(ScriptLanguageConstants.TOKEN_NUMBER_1)!=null) {
+				if (command.get(ScriptLanguageConstants.TOKEN_NUMBER_1).toUpperCase().equals(ScriptLanguageConstants.COMMAND_FOREACH)) {
+					
+					// Find out corresponding endForEach ...
+					int indexForEachEnd = findProgramAddressEndBlock(programCommands, indexForEachBegin, ScriptLanguageConstants.COMMAND_FOREACH, ScriptLanguageConstants.COMMAND_ENDFOREACH);
+					
+					// Begin - Block - forEach
+					String programAddressNameForEachBegin = getSymbolNameForEachBegin( indexForEachBegin );
+					RecordOf programAddressForEachBegin = new RecordOf();
+					programAddressForEachBegin.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_FOREACH_BEGIN, Integer.toString(indexForEachBegin));
+					programAddressForEachBegin.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_FOREACH_BEGIN, Integer.toString(indexForEachBegin));
+					// End - Block - EndForEach
+					String programAddressNameForEachEnd = getSymbolNameForEachEnd( indexForEachEnd );
+					RecordOf programAddressForEachEnd = new RecordOf();
+					programAddressForEachEnd.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_FOREACH_END, Integer.toString(indexForEachEnd));
+					programAddressForEachEnd.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_FOREACH_END, Integer.toString(indexForEachEnd));
+					
+					// Add block (begin,end) to ProgramAddress SymbolTable ...
+					symbolTable.addProgramAddress(programAddressNameForEachBegin, programAddressForEachBegin);
+					symbolTable.addProgramAddress(programAddressNameForEachEnd, programAddressForEachEnd);
+					
+				}
+			}
+		}
+		
+	}
+
+	
+	/*
+	 * getSymbolNameForEachBegin(index) - Get symbol name ForEach begin ...
+	 */
+	public String getSymbolNameForEachBegin(int index) {
+		return ( new String(ScriptLanguageConstants.COMMAND_FOREACH + "-" + org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_NAME_FOREACH_BEGIN_SUFIX + "-" + (index+1) ) );
+	}
+	
+	
+	/*
+	 * getSymbolNameForEachEnd(index) - Get symbol name ForEach End ...
+	 */
+	public String getSymbolNameForEachEnd(int index) {
+		return ( new String(ScriptLanguageConstants.COMMAND_FOREACH + "-" + org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_NAME_FOREACH_END_SUFIX + "-" + (index+1) ) );
+	}
+	
+	
+	/*
+	 * findProgramAddressEndBlock(programCommands,initialProgramAddressIndex,beginCommandLiteral,endCommandLiteral) - Find out index of end block
+	 */
+	private int findProgramAddressEndBlock(TableOf programCommands, int initialProgramAddressIndex, String beginCommandLiteral, String endCommandLiteral) throws Exception {
+		int indexBlockEnd = -1;
+		int stackedForEachCommands = 0;
+		for (int i=initialProgramAddressIndex+1;i<programCommands.size() && indexBlockEnd==-1;i++) {
+			RecordOf endProgramCommand = programCommands.get(i);
+			if (endProgramCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_1).equals(beginCommandLiteral)) {
+				stackedForEachCommands++;
+			} else if (endProgramCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_1).equals(endCommandLiteral)) {
+				if (stackedForEachCommands == 0) {
+					// Corresponding endForEach found !
+					indexBlockEnd = i;
+				} else {
+					stackedForEachCommands--;
+				}
+			}
+		}
+		return indexBlockEnd;
+	}
+		
 
 	
 }

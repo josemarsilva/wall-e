@@ -34,6 +34,6 @@ sendKeys					sumResult
 #
 # Submit the result ...
 #
-wait                		15000
+wait                		50000
 findElementByXPath			.//*[@name='submit']
 click
