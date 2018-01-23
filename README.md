@@ -1,11 +1,4 @@
-# wall-e
-Wall-E is an automation script execution robot
-
-https://github.com/josemarsilva/wall-e/wiki
-
-
-
-# 1. Welcome to the Wall-e automation
+# 1. Welcome to the Wall-e automation script
 
 *Wall-e*  is an automation script execution robot.
 
