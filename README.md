@@ -41,6 +41,7 @@ usage: wall-e [options]
 | **findElementByXPath** | *xPath*      | Find an web element on the current page using xPath expression. Element found can be referenced by `lastWebElementFound` |
 | **forEach**            | *table*      | Loop flow control over *table*. Iterates each line of table allowing access to each column of table record (use forEach .. EndForEach) |
 | **get**                | *url*        | Get url                                       |
+| **getTableDataIntoVar**       | *tableName*, *rowNumber*, *columnName*, *variableName* | Get the content of *rowNumber* vs *columnName* of *tableName* and save value into *variableName* |
 | **selectOptionBy**     | *optionByType*, *optionByValue* | Select a combo-box with option. When *optionByType* is `visiableText` Then *optionByValue* is combo-box visible text to be selected. When *optionByType* is `index` Then *optionByValue* is combo-box index position to be selected. When *optionByType* is `value` Then *optionByValue* is combo-box value to be selected. |
 | **sendKeys**           | *keysToBeSent* | Send keys to `lastWebElementFound`. When *keysToBeSent* contains inside the text names of *variables* Then all *variables* names are replaced by *variable* contents value |
 | **sendKeyEnter**       |              | Send ENTER keys to `lastWebElementFound` |
