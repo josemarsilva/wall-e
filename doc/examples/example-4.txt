@@ -13,7 +13,14 @@ loadTableFrom       tableFromXlsx      excel        ./doc/examples/example-1.xls
 #
 # Loop table ...
 #
-forEach		tableFromXlsx
-	get		http://www.google.com.br
-	wait	10000
+setExpressionToVariable "0" index
+forEach tableFromXlsx
+	get                 "http://google.com"
+	wait 10000
+	findElementByXPath  .//*[@id='lst-ib']
+	click
+	sendKeys                "index"
+	sendKeyEnter
+	wait 10000
+	setExpressionToVariable	"index + 1" index
 EndForEach

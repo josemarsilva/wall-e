@@ -108,12 +108,36 @@ public class SymbolTable {
 		return symbolTableVariable.get(key).get(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_SYMBOLTYPE);
 	}
 	
+	
+	/*
+	 * getSymbolTableTableOf(key) - Returns tableOf of 'key' ...
+	 */
+	public TableOf getSymbolTableTableOf(String key) {
+		return symbolTableTableOf.get(key);
+	}
+	
 
 	/*
 	 * getValueSymbolTableProgramAddress(key) - Return attribute of symbol table symbolTableProgramAddress indexed by 'key' ...
 	 */
 	public String getAttributeSymbolTableProgramAddress(String key, String attribute) throws Exception {
 		return symbolTableProgramAddress.get(key).get(attribute);
+	}
+	
+	
+	/*
+	 * getRecordOfSymbolTableProgramAddress(key) - Get RecordOf a ProgramAddress ...
+	 */
+	public RecordOf getRecordOfSymbolTableProgramAddress(String key) throws Exception {
+		return symbolTableProgramAddress.get(key);
+	}
+	
+	
+	/*
+	 * setRecordOfSymbolTableProgramAddress(symbolName,symbolRecordOf)
+	 */
+	public void putRecordOfSymbolTableProgramAddress(String symbolName, RecordOf symbolRecordOf ) {
+		symbolTableProgramAddress.put(symbolName, symbolRecordOf);
 	}
 	
 

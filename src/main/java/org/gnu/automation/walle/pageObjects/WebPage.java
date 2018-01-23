@@ -88,11 +88,21 @@ public class WebPage {
 	
 	
 	/*
-	 * sendKeyEnter() - Send enter key pressed ...
+	 * sendKeyEnter() - Send ENTER key pressed ...
 	 */
 	public void sendKeyEnter() {
 		if (webElement != null) {
 			webElement.sendKeys(Keys.RETURN);  
+		}
+	}
+	
+	
+	/*
+	 * sendKeyTab() - Send TAB key pressed ...
+	 */
+	public void sendKeyTab() {
+		if (webElement != null) {
+			webElement.sendKeys(Keys.TAB);  
 		}
 	}
 	
@@ -176,7 +186,9 @@ public class WebPage {
 	 * quit() - calls driver.dispose method which in turn closes all the browser windows and ends the WebDriver session gracefully.
 	 */
 	public void quit() {
-		driver.quit();
+		if (driver!=null) {
+			driver.quit();			
+		}
 	}
 
 

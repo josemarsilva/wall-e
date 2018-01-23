@@ -18,6 +18,7 @@ public class SymbolsConstants {
 	public final static String SYMBOL_ATTRIBUTE_SYMBOLTYPE = "symbolType";
 	public final static String SYMBOL_ATTRIBUTE_FOREACH_BEGIN = "forEachBegin";
 	public final static String SYMBOL_ATTRIBUTE_FOREACH_END = "forEachEnd";
+	public final static String SYMBOL_ATTRIBUTE_FOREACH_ITERATOR = "forEachIterator";
 	
 	public final static String SYMBOL_NAME_CLIARGSPARAM_PREFIX = "args";
 	public final static String SYMBOL_NAME_LASTWEBELEMENTFOUND = "lastWebElementFound";

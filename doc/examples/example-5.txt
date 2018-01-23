@@ -1,0 +1,41 @@
+# #############################################################################
+# filename: example-5.txt
+# date....: 2018-01-22
+# author..: josemarsilva@yahoo.com.br
+# Purpose.:   
+# #############################################################################
+
+#
+# MaxMilhas ...
+#
+get					https://www.maxmilhas.com.br
+
+findElementByXPath	.//*[@id='onesignal-popover-allow-button']
+click
+
+
+findElementByXPath	.//*[@id='form_from']
+sendKeys			"Campinas Viracopos (VCP)"
+wait				15000
+sendKeyTab
+
+findElementByXPath	.//*[@id='form_to']
+sendKeys			"Orlando (MCO)"
+wait				15000
+sendKeyTab
+
+findElementByXPath	.//*[@name='departDate']
+sendKeys			"25/06/2018"
+wait				15000
+sendKeyTab
+
+findElementByXPath	.//*[@name='returnDate']
+sendKeys			"16/07/2018"
+wait				15000
+sendKeyTab
+
+findElementByXPath	.//*[@id='btn_search_flights']
+click
+
+
+wait				60000

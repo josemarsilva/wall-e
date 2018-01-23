@@ -52,6 +52,17 @@ public class RecordOf {
 	
 	
 	/**
+	 * remove(key) - Remove the key
+	 * 
+	 * @param key Key to be removed
+	 * 
+	 */
+	public void remove(String key) {
+		recordOfKeyValue.remove(key);
+	}
+	
+	
+	/**
 	 * getListOfKeys - Return List of keys sort by add order
 	 *  
 	 * @return

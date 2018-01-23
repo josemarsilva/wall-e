@@ -174,11 +174,11 @@ public class ScriptParser {
 					String programAddressNameForEachBegin = getSymbolNameForEachBegin( indexForEachBegin );
 					RecordOf programAddressForEachBegin = new RecordOf();
 					programAddressForEachBegin.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_FOREACH_BEGIN, Integer.toString(indexForEachBegin));
-					programAddressForEachBegin.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_FOREACH_BEGIN, Integer.toString(indexForEachBegin));
+					programAddressForEachBegin.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_FOREACH_END, Integer.toString(indexForEachEnd));
 					// End - Block - EndForEach
 					String programAddressNameForEachEnd = getSymbolNameForEachEnd( indexForEachEnd );
 					RecordOf programAddressForEachEnd = new RecordOf();
-					programAddressForEachEnd.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_FOREACH_END, Integer.toString(indexForEachEnd));
+					programAddressForEachEnd.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_FOREACH_BEGIN, Integer.toString(indexForEachBegin));
 					programAddressForEachEnd.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_FOREACH_END, Integer.toString(indexForEachEnd));
 					
 					// Add block (begin,end) to ProgramAddress SymbolTable ...
@@ -216,9 +216,9 @@ public class ScriptParser {
 		int stackedForEachCommands = 0;
 		for (int i=initialProgramAddressIndex+1;i<programCommands.size() && indexBlockEnd==-1;i++) {
 			RecordOf endProgramCommand = programCommands.get(i);
-			if (endProgramCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_1).equals(beginCommandLiteral)) {
+			if (endProgramCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_1).toUpperCase().equals(beginCommandLiteral.toUpperCase())) {
 				stackedForEachCommands++;
-			} else if (endProgramCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_1).equals(endCommandLiteral)) {
+			} else if (endProgramCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_1).toUpperCase().equals(endCommandLiteral.toUpperCase())) {
 				if (stackedForEachCommands == 0) {
 					// Corresponding endForEach found !
 					indexBlockEnd = i;

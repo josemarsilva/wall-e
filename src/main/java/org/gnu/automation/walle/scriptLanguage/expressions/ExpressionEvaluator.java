@@ -34,18 +34,17 @@ public class ExpressionEvaluator {
 				for (int i=0;i<keySetVariable.size();i++) {
 					if (!keySetVariable.get(i).equals("")) {
 						String replacement = new String(keySetVariable.get(i));
-						if (symbolTable.getSymbolTypeSymbolTableVariable(keySetVariable.get(i)).equals(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_NAME_LASTWEBELEMENTFOUND)) {
+						if (symbolTable.getSymbolTypeSymbolTableVariable(keySetVariable.get(i)).equals(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_NAME_LASTWEBELEMENTFOUND)
+								&& expression.toUpperCase().contains(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_NAME_LASTWEBELEMENTFOUND)) {
 							replacement = webPage.getText();
 						} else {
 							replacement = symbolTable.getValueSymbolTableVariable(keySetVariable.get(i));
 						}
-						// variables replacement on expression ...
 						expressionEvaluated = expressionEvaluated.replaceAll( (keySetVariable.get(i)).replaceAll("\\[", "\\\\[").replaceAll("\\]", "\\\\]"), replacement);
 					}
 				}
 			}
 		}
-		// return untouched expression ...
 		return expressionEvaluated;
 	}
 
