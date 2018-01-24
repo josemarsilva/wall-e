@@ -6,7 +6,6 @@
 *Wall-e* is usefull tool to automate repetitive tasks like:
 * navigate between of web pages getting url, clicking links, sending/getting text to/from datafields
 * fulfillment of web pages forms based on Excel worksheets
-* extract data from html tables into Excel worksheets
 
 
 # 3. Command line arguments
