@@ -124,6 +124,9 @@ public class ScriptRunner {
 				} else if ( recordOfCommandScript.get(ScriptLanguageConstants.TOKEN_NUMBER_1).toUpperCase().equals(ScriptLanguageConstants.COMMAND_GET) ) {
 					executeGet(recordOfCommandScript);
 
+				} else if ( recordOfCommandScript.get(ScriptLanguageConstants.TOKEN_NUMBER_1).toUpperCase().equals(ScriptLanguageConstants.COMMAND_GETTABLEDATA) ) {
+					executeGetTableData(recordOfCommandScript);
+
 				} else if ( recordOfCommandScript.get(ScriptLanguageConstants.TOKEN_NUMBER_1).toUpperCase().equals(ScriptLanguageConstants.COMMAND_LOADTABLEFROM) ) { 
 					executeLoadTableFrom(recordOfCommandScript);
 					
@@ -331,15 +334,86 @@ public class ScriptRunner {
 	 */
 	private void executeGet(RecordOf recordOfCommand) throws Exception {
 		if (recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2) != null) {
-			if (recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2).equals("") ) {
+			if (!recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2).equals("") ) {
+				webPage.get( symbolReplacement( recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2 ) ));
+			} else {
 				// Warning: Missing parameters command will be skipped
 				System.out.println(ScriptLanguageConstants.MSG_TXT_WARN_MISSING_PARAMETERS.replaceFirst("%s", recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_1)).replaceFirst("%s", "<url>"));
-			} else {
-				webPage.get(recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2));
 			}
 		}
 	}
 	
+
+	/*
+	 * executeGetTableData( ) - Get data from table indexed by numRow and columnName ...
+	 */
+	private void executeGetTableData(RecordOf recordOfCommand) throws Exception {
+		if (recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2) != null ) {
+			if (!recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2).equals("") ) {
+				if (recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_3) != null ) {
+					if (!recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_3).equals("") ) {
+						if (recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_4) != null ) {
+							if (!recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_4).equals("") ) {
+								if (recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_5) != null ) {
+									if (!recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_5).equals("") ) {
+										if (symbolTable.containsKeyTableOf(recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2)) ) {
+											if (ScriptParser.containsOnlyNumbers(recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_3))) {
+												// get row
+												int rowNumber = Integer.parseInt( symbolReplacement(recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_3)) );
+												RecordOf rowData = symbolTable.getSymbolTableTableOf(recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2)).get(rowNumber) ;
+												// get col data
+												String data = rowData.get(recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_4));
+												// put into variable
+												if (data!=null) {
+													RecordOf symbolRecordOf = new RecordOf();
+													String symbolName = new String(recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_5)); 
+													symbolRecordOf.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_SYMBOLTYPE, org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_TYPE_VARIABLE);
+													symbolRecordOf.set(org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_ATTRIBUTE_VALUE, data);
+													symbolTable.addVariable(symbolName, symbolRecordOf);						
+												}
+											} else {
+												// Warning: Missing parameters command will be skipped
+												System.out.println(ScriptLanguageConstants.MSG_TXT_ERROR_PARAM_MUST_BE_NUMERIC.replaceFirst("%s", recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_3)).replaceFirst("%s", "rowNumber"));
+											}
+										} else {
+											// Warning: Missing parameters command will be skipped
+											System.out.println(ScriptLanguageConstants.MSG_TXT_ERROR_PARAM_TABLE_IS_UNDEFINED.replaceFirst("%s", recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_2)).replaceFirst("%s", recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_1)));
+										}
+									} else {
+										// Warning: Missing parameters command will be skipped
+										System.out.println(ScriptLanguageConstants.MSG_TXT_WARN_MISSING_PARAMETERS.replaceFirst("%s", recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_3)).replaceFirst("%s", "variableName"));
+									}
+								} else {
+									// Warning: Missing parameters command will be skipped
+									System.out.println(ScriptLanguageConstants.MSG_TXT_WARN_MISSING_PARAMETERS.replaceFirst("%s", recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_3)).replaceFirst("%s", "variableName"));
+								}
+							} else {
+								// Warning: Missing parameters command will be skipped
+								System.out.println(ScriptLanguageConstants.MSG_TXT_WARN_MISSING_PARAMETERS.replaceFirst("%s", recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_3)).replaceFirst("%s", "columnName"));
+							}
+						} else {
+							// Warning: Missing parameters command will be skipped
+							System.out.println(ScriptLanguageConstants.MSG_TXT_WARN_MISSING_PARAMETERS.replaceFirst("%s", recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_3)).replaceFirst("%s", "columnName"));
+						}
+					} else {
+						// Warning: Missing parameters command will be skipped
+						System.out.println(ScriptLanguageConstants.MSG_TXT_WARN_MISSING_PARAMETERS.replaceFirst("%s", recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_3)).replaceFirst("%s", "rowNumber"));
+					}
+				} else {
+					// Warning: Missing parameters command will be skipped
+					System.out.println(ScriptLanguageConstants.MSG_TXT_WARN_MISSING_PARAMETERS.replaceFirst("%s", recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_3)).replaceFirst("%s", "rowNumber"));
+				}
+			} else {
+				// Warning: Missing parameters command will be skipped
+				System.out.println(ScriptLanguageConstants.MSG_TXT_WARN_MISSING_PARAMETERS.replaceFirst("%s", recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_1)).replaceFirst("%s", "tableName"));
+			}
+		} else {
+			// Warning: Missing parameters command will be skipped
+			System.out.println(ScriptLanguageConstants.MSG_TXT_WARN_MISSING_PARAMETERS.replaceFirst("%s", recordOfCommand.get(ScriptLanguageConstants.TOKEN_NUMBER_1)).replaceFirst("%s", "tableName"));
+		}
+	}
+	
+
 	/*
 	 * executeLoadTableFrom(recordOfCommand) - 
 	 */

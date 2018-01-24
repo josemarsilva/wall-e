@@ -107,8 +107,10 @@ public class ScriptParser {
 	}
 	
 	
-	/*
+	/**
 	 * parsePass2( tableOfCommands, symbolTable ) - Build symbolTable with commands ...
+	 * @param tableOfCommands
+	 * @param symbolTable
 	 */
 	public void parsePass2(SymbolTable symbolTable, CliArgsParser cliArgsParser, TableOf programCommands) throws Exception {
 		System.out.println("Parsing Pass #2: Build Static Program Symbol Table ...");
@@ -125,8 +127,10 @@ public class ScriptParser {
 	}
 	
 	
-	/*
+	/**
 	 * buildArgsSymbolTable() - Build args Symbol Table ( cliArgsParam )...
+	 * @param symbolTable
+	 * @param cliArgsParser
 	 */
 	private void buildArgsSymbolTable(SymbolTable symbolTable, CliArgsParser cliArgsParser) {
 		for (int i=1;i<=8;i++) {
@@ -144,8 +148,9 @@ public class ScriptParser {
 	}
 
 	
-	/*
+	/**
 	 * buildInternalSymbolTable(symbolTable) - Build internal Symbol Table (lastWebElementFound) ...
+	 * @param symbolTable
 	 */
 	private void buildInternalSymbolTable(SymbolTable symbolTable) {
 		RecordOf symbolRecordOf = new RecordOf();
@@ -155,8 +160,10 @@ public class ScriptParser {
 	}
 	
 	
-	/*
+	/**
 	 * buildProgramAddressSymbolTable(symbolTable) - Build Program Address Symbol Table ...
+	 * @param symbolTable
+	 * @param programCommands
 	 */
 	private void buildProgramAddressSymbolTable(SymbolTable symbolTable, TableOf programCommands) throws Exception {
 		
@@ -192,24 +199,31 @@ public class ScriptParser {
 	}
 
 	
-	/*
+	/**
 	 * getSymbolNameForEachBegin(index) - Get symbol name ForEach begin ...
+	 * @param index
 	 */
 	public String getSymbolNameForEachBegin(int index) {
 		return ( new String(ScriptLanguageConstants.COMMAND_FOREACH + "-" + org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_NAME_FOREACH_BEGIN_SUFIX + "-" + (index+1) ) );
 	}
 	
 	
-	/*
+	/**
 	 * getSymbolNameForEachEnd(index) - Get symbol name ForEach End ...
+	 * @param index
 	 */
 	public String getSymbolNameForEachEnd(int index) {
 		return ( new String(ScriptLanguageConstants.COMMAND_FOREACH + "-" + org.gnu.automation.walle.scriptLanguage.symbols.SymbolsConstants.SYMBOL_NAME_FOREACH_END_SUFIX + "-" + (index+1) ) );
 	}
 	
 	
-	/*
-	 * findProgramAddressEndBlock(programCommands,initialProgramAddressIndex,beginCommandLiteral,endCommandLiteral) - Find out index of end block
+	/**
+	 * findProgramAddressEndBlock() - Find out index of end block
+	 * @return int
+	 * @param programCommands
+	 * @param initialProgramAddressIndex
+	 * @param beginCommandLiteral
+	 * @param endCommandLiteral
 	 */
 	private int findProgramAddressEndBlock(TableOf programCommands, int initialProgramAddressIndex, String beginCommandLiteral, String endCommandLiteral) throws Exception {
 		int indexBlockEnd = -1;
@@ -228,6 +242,21 @@ public class ScriptParser {
 			}
 		}
 		return indexBlockEnd;
+	}
+
+
+	/**
+	 * containsOnlyNumbers() - Check if a string contains only numeric number 0 .. 9
+	 * @return boolean 
+	 * @param string String to be checked
+	 */
+	public static boolean containsOnlyNumbers(String string) {
+		for (int i=0;i<string.length();i++) {
+			if ( string.charAt(i) < '0' && string.charAt(i) > '9' ) {
+				return true;
+			}
+		}
+		return true;
 	}
 		
 

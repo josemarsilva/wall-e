@@ -8,19 +8,15 @@
 #
 # Load into table structure 'tableFromXlsx' MS-Excel worksheet ...
 #
-loadTableFrom       tableFromXlsx      excel        ./doc/examples/example-1.xlsx
+loadTableFrom       tableFromXlsx      excel        ./doc/examples/example-4a.xlsx
 
 #
 # Loop table ...
 #
 setExpressionToVariable "0" index
 forEach tableFromXlsx
-	get                 "http://google.com"
-	wait 10000
-	findElementByXPath  .//*[@id='lst-ib']
-	click
-	sendKeys                "index"
-	sendKeyEnter
-	wait 10000
+	getTableData		tableFromXlsx	index	COL_H	url	
+	get                 url
+	wait				15000
 	setExpressionToVariable	"index + 1" index
 EndForEach
