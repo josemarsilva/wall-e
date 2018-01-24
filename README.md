@@ -127,12 +127,16 @@ click
 # Load into table structure 'tableFromXlsx' MS-Excel worksheet ...
 #
 loadTableFrom       tableFromXlsx      excel        ./doc/examples/example-1.xlsx
+
 #
-# Iterate table sctructure ...
+# Loop table in forEach .. EndForEach flow control  ...
 #
+setExpressionToVariable "0" index
 forEach tableFromXlsx
-	get		http://www.google.com.br
-	wait	10000
+  getTableData             tableFromXlsx  index  COL_H  url	
+  get                      url
+  wait                     15000
+  setExpressionToVariable  "index + 1" index
 EndForEach
 ```
 
