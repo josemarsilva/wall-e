@@ -1,3 +1,11 @@
+# Custom - Java Eclipse projects
+.classpath
+.project
+log4j.properties
+.settings/*
+/target/
+/dist/resource
+
 # Compiled class file
 *.class
 
@@ -20,8 +28,3 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-
-# Eclipse Settings
-.settings/*
-/target/
-/dist/resource
